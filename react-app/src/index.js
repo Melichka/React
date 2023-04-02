@@ -1,29 +1,81 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from "react"
 import ReactDOM from "react-dom/client"
-import Insurance from './Components/Insurance/Insurance'
-import InsuranceCreate from './Components/InsuranceCreate/InsuranceCreate'
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+
+import Insurance from "./Components/Insurance/Insurance"
+import InsuranceCreate from "./Components/InsuranceCreate/InsuranceCreate"
+import Layout from "./Components/Layout/Layout"
+import LogIn from "./Components/LogIn/LogIn"
+import LogOff from "./Components/LogOff/LogOff"
+
 
 const App = () => {
-  const [insurances, setInsurance] = useState([])
+  const [insurances, setInsurance] = useState([]);
   const addInsurance = (insurance) => setInsurance([...insurances, insurance])
-  const removeInsurance = (removeId) => setInsurance(insurances.filter(({ insuranceId }) => insuranceId
-!== removeId));
+  const removeInsurance = (removeId) =>
+    setInsurance(
+      insurances.filter(({ insuranceId }) => insuranceId !== removeId)
+    )
+
+  const [user, setUser] = useState({ isAuthenticated: false, userName: "" })
+  
+  useEffect(() => {
+    const getUser = async () => {
+      return await fetch("api/account/isauthenticated")
+        .then((response) => {
+          response.status === 401 &&
+            setUser({ isAuthenticated: false, userName: "" })
+          return response.json()
+        })
+        .then(
+          (data) => {
+            if (
+              typeof data !== "undefined" &&
+              typeof data.userName !== "undefined"
+            ) {
+              setUser({ isAuthenticated: true, userName: data.userName })
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+    }
+    getUser()
+  }, [setUser])
 
   return (
-    <div>
-      <InsuranceCreate
-        addInsurance={addInsurance}
-      />
-
-      <Insurance
-        insurances={insurances}
-        setInsurance={setInsurance}
-        removeInsurance={removeInsurance}
-      />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout user={user} />}>
+          <Route index element={<h3>Главная страница</h3>} />
+          <Route
+            path="/auto"
+            element={
+              <>
+                <InsuranceCreate user={user} addInsurance={addInsurance} />
+                <Insurance
+                  user={user}
+                  insurance={insurances}
+                  setInsurance={setInsurance}
+                  removeInsurance={removeInsurance}
+                />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={<LogIn user={user} setUser={setUser} />}
+          />
+          <Route path="/logoff" element={<LogOff setUser={setUser} />} />
+          <Route path="*" element={<h3>404</h3>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
-const root = ReactDOM.createRoot(document.getElementById("root"))
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <App />
