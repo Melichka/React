@@ -5,8 +5,8 @@ const InsuranceCreate = ({ user, addInsurance }) => {
     e.preventDefault()
 
     const id = e.target.elements.idField.value
-    const startDate = e.target.elements.startdateField.value
-    const finishDate = e.target.elements.finishtdateField.value
+    const startDate = e.target.elements.startDateField
+    const finishDate = e.target.elements.finishtDateField
     const policy = e.target.elements.policyField.value
     const price = e.target.elements.priceField.value
     const drivingExpirience = e.target.elements.drivingexpirienceField.value
@@ -38,8 +38,7 @@ const InsuranceCreate = ({ user, addInsurance }) => {
         body: JSON.stringify(insurance),
       }
       const response = await fetch(
-        "api/auto",
-
+        "api/auto/",
         requestOptions
       )
 
@@ -66,10 +65,10 @@ const InsuranceCreate = ({ user, addInsurance }) => {
             <input type="number" name="idField" />
             <br></br>
             <label>Дата начала: </label>
-            <input type="date" name="startdateField" />
+            <input type="date" name="startDateField" />
             <br></br>
             <label>Дата конца: </label>
-            <input type="date" name="finishdateField" />
+            <input type="date" name="finishDateField" />
             <br></br>
             <label>Номер страхового полиса: </label>
             <input type="text" name="policyField" />

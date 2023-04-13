@@ -16,7 +16,8 @@ const Layout = ({ user }) => {
         <Link to="/">Главная</Link> <span> </span>
         <Link to="/auto">Страхование</Link> <span> </span>
         <Link to="/login">Вход</Link> <span> </span>
-        <Link to="/logoff">Выход</Link>
+        <Link to="/logoff">Выход</Link> <span> </span>
+        <Link to="/register">Регистрация</Link>
       </nav>
       <Outlet />
     </>

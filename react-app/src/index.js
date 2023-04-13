@@ -7,6 +7,7 @@ import InsuranceCreate from "./Components/InsuranceCreate/InsuranceCreate"
 import Layout from "./Components/Layout/Layout"
 import LogIn from "./Components/LogIn/LogIn"
 import LogOff from "./Components/LogOff/LogOff"
+import Register from "./Components/Register/Register"
 
 
 const App = () => {
@@ -21,10 +22,11 @@ const App = () => {
   
   useEffect(() => {
     const getUser = async () => {
-      return await fetch("api/account/isauthenticated")
+      return await fetch("/api/account/isauthenticated")
         .then((response) => {
           response.status === 401 &&
             setUser({ isAuthenticated: false, userName: "" })
+            console.log(response)
           return response.json()
         })
         .then(
@@ -68,6 +70,7 @@ const App = () => {
             element={<LogIn user={user} setUser={setUser} />}
           />
           <Route path="/logoff" element={<LogOff setUser={setUser} />} />
+          <Route path="/register" element={<Register setUser={setUser} />} />
           <Route path="*" element={<h3>404</h3>} />
         </Route>
       </Routes>

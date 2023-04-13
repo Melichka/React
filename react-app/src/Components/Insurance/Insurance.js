@@ -1,7 +1,8 @@
 import React, { useEffect } from "react"
+
 import "./Style.css"
 
-const Insurance = ({ user, insurances, setInsurance, removeInsurance }) => {
+const Insurance = ({ user, insurance, setInsurance, removeInsurance }) => {
   useEffect(() => {
     const getInsurance = async () => {
       const requestOptions = {
@@ -24,11 +25,13 @@ const Insurance = ({ user, insurances, setInsurance, removeInsurance }) => {
     getInsurance()
   }, [setInsurance])
 
+  
   const deleteItem = async ({ insuranceId }) => {
     const requestOptions = {
       method: "DELETE",
     }
-    return await fetch(`api/auto${insuranceId}`, requestOptions).then(
+    return await fetch(`api/auto/${insuranceId}`,
+     requestOptions).then(
       (response) => {
         if (response.ok) {
           removeInsurance(insuranceId)
@@ -41,16 +44,14 @@ const Insurance = ({ user, insurances, setInsurance, removeInsurance }) => {
   return (
     <>
       <h3>Список страхования</h3>
-      {insurances.map(({ id, policy, startDate, finishDate, fio }) => (
+      {insurance.map(({ id, policy, startDate, finishDate,fio }) => (
         <div className="Insurance" key={id} id={id}>
           <strong>
-            {" "}
             {id}: {startDate}-{finishDate}{" "}
           </strong>
           <p>
             {policy}-{fio}
           </p>
-
           {user.isAuthenticated ? (
             <button onClick={() => deleteItem({ id })}>Удалить</button>
           ) : (
