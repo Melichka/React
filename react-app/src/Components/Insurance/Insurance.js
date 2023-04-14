@@ -43,16 +43,16 @@ const Insurance = ({ user, insurance, setInsurance, removeInsurance }) => {
 
   return (
     <>
-      <h3>Список страхования</h3>
+      <h3 style={{color:"#ffffff"}}>Список страхования</h3>
       {insurance.map(({ id, policy, startDate, finishDate,fio }) => (
-        <div className="Insurance" key={id} id={id}>
-          <strong>
+        <div style={{color:"#ffffff"}} className="Insurance" key={id} id={id}>
+          <strong style={{color:"#ffffff"}}>
             {id}: {startDate}-{finishDate}{" "}
           </strong>
-          <p>
+          <p style={{color:"#ffffff"}}>
             {policy}-{fio}
           </p>
-          {user.isAuthenticated ? (
+          {user.isAuthenticated && user.userRole=="admin"? (
             <button onClick={() => deleteItem({ id })}>Удалить</button>
           ) : (
             ""

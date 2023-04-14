@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-
+import {Typography } from "antd";
 import Insurance from "./Components/Insurance/Insurance"
 import InsuranceCreate from "./Components/InsuranceCreate/InsuranceCreate"
 import Layout from "./Components/Layout/Layout"
@@ -9,7 +9,7 @@ import LogIn from "./Components/LogIn/LogIn"
 import LogOff from "./Components/LogOff/LogOff"
 import Register from "./Components/Register/Register"
 
-
+const { Title }= Typography;
 const App = () => {
   const [insurances, setInsurance] = useState([]);
   const addInsurance = (insurance) => setInsurance([...insurances, insurance])
@@ -50,7 +50,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout user={user} />}>
-          <Route index element={<h3>Главная страница</h3>} />
+          <Route index element={<Title  style ={{fontSize:22}}>Главная страница</Title>} />
           <Route
             path="/auto"
             element={
